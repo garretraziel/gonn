@@ -2,9 +2,7 @@ package main
 
 import (
     "flag"
-    "fmt"
     "github.com/garretraziel/mnistloader"
-    "github.com/garretraziel/matrices"
     "github.com/garretraziel/nn"
 )
 
@@ -22,15 +20,14 @@ func main() {
     }
 
     inputLength := 0
-    images := make([]matrices.Matrix, len(imagesLoaded))
+    inputs := make([]nn.TrainItem, len(imagesLoaded))
     for i, val := range imagesLoaded {
-        images[i], err = matrices.InitMatrixWithValues(1, len(val), val)
-        inputLength = len(val)
+        inputs[i], err = nn.InitTrainItem(val, labels[i])
         if err != nil {
             panic(err)
         }
     }
 
     network := nn.InitNN([]int{inputLength, 30, 10})
-    fmt.Println(network.Evaluate(images, labels))
+    network.Train(inputs, 30, 10, 3.0)
 }

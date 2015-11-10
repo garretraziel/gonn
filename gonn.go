@@ -19,7 +19,6 @@ func main() {
         panic(err)
     }
 
-    inputLength := 0
     inputs := make([]nn.TrainItem, len(imagesLoaded))
     for i, val := range imagesLoaded {
         inputs[i], err = nn.InitTrainItem(val, labels[i])
@@ -28,6 +27,12 @@ func main() {
         }
     }
 
-    network := nn.InitNN([]int{inputLength, 30, 10})
-    network.Train(inputs, 30, 10, 3.0)
+    inputs = make([]nn.TrainItem, 10)
+    for i := 0; i < 10; i++ {
+        c := float64(i)
+        inputs[i], _ = nn.InitTrainItem([]float64{c, c + 1, c + 2}, c)
+    }
+
+    network := nn.InitNN([]int{4, 2, 3})
+    network.Train(inputs, 30, 2, 3.0)
 }

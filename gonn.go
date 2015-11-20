@@ -30,7 +30,7 @@ func main() {
     inputs = make([]nn.TrainItem, 10)
     for i := 0; i < 10; i++ {
         c := float64(i)
-        inputs[i], _ = nn.InitTrainItem([]float64{c, c + 1, c + 2}, c)
+        inputs[i], _ = nn.InitTrainItem([]float64{c, c + 1, c + 2, c + 3}, c)
     }
 
     network := nn.InitNN([]int{4, 2, 3})

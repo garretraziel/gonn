@@ -10,7 +10,7 @@ func main() {
     labelPathPtr := flag.String("labels", "dataset/train-labels.idx1-ubyte", "path to MNIST labels file")
     imagesPathPtr := flag.String("images", "dataset/train-images.idx3-ubyte", "path to MNIST images file")
     flag.Parse()
-    labels, err := mnistloader.ReadLabels(*labelPathPtr)
+    labels, distinct, err := mnistloader.ReadLabels(*labelPathPtr)
     if err != nil {
         panic(err)
     }
@@ -21,7 +21,7 @@ func main() {
 
     inputs := make([]nn.TrainItem, len(imagesLoaded))
     for i, val := range imagesLoaded {
-        inputs[i], err = nn.InitTrainItem(val, labels[i])
+        inputs[i], err = nn.InitTrainItem(val, labels[i], distinct)
         if err != nil {
             panic(err)
         }
@@ -30,7 +30,7 @@ func main() {
     inputs = make([]nn.TrainItem, 10)
     for i := 0; i < 10; i++ {
         c := float64(i)
-        inputs[i], _ = nn.InitTrainItem([]float64{c, c + 1, c + 2, c + 3}, c)
+        inputs[i], _ = nn.InitTrainItem([]float64{c, c + 1, c + 2, c + 3}, float64(i % 3), 3)
     }
 
     network := nn.InitNN([]int{4, 2, 3})

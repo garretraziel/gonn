@@ -14,7 +14,7 @@ func main() {
     if err != nil {
         panic(err)
     }
-    imagesLoaded, err := mnistloader.ReadImages(*imagesPathPtr)
+    imagesLoaded, inputLength, err := mnistloader.ReadImages(*imagesPathPtr)
     if err != nil {
         panic(err)
     }
@@ -27,12 +27,9 @@ func main() {
         }
     }
 
-    inputs = make([]nn.TrainItem, 10)
-    for i := 0; i < 10; i++ {
-        c := float64(i)
-        inputs[i], _ = nn.InitTrainItem([]float64{c, c + 1, c + 2, c + 3}, float64(i % 3), 3)
-    }
+    testData := inputs[len(inputs) - 100:]
+    inputs = inputs[:len(inputs) - 100]
 
-    network := nn.InitNN([]int{4, 2, 3})
-    network.Train(inputs, 30, 2, 3.0)
+    network := nn.InitNN([]int{inputLength, 30, distinct})
+    network.Train(inputs, 30, 10, 3.0, testData)
 }

@@ -30,6 +30,6 @@ func main() {
     testData := inputs[len(inputs) - 10000:]
     inputs = inputs[:len(inputs) - 10000]
 
-    network := nn.InitNN([]int{inputLength, 30, distinct})
-    network.Train(inputs, 30, 10, 0.5, testData)
+    network := nn.InitNN([]int{inputLength, 100, distinct})
+    network.Train(inputs, 60, 10, 0.1, 5.0, testData, false)
 }

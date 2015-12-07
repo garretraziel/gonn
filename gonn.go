@@ -21,15 +21,12 @@ func main() {
 
     inputs := make([]nn.TrainItem, len(imagesLoaded))
     for i, val := range imagesLoaded {
-        inputs[i], err = nn.InitTrainItem(val, labels[i], distinct)
-        if err != nil {
-            panic(err)
-        }
+        inputs[i] = nn.InitTrainItem(val, labels[i], distinct)
     }
 
     testData := inputs[len(inputs) - 10000:]
     inputs = inputs[:len(inputs) - 10000]
 
-    network := nn.InitNN([]int{inputLength, 100, distinct})
-    network.Train(inputs, 60, 10, 0.1, 5.0, testData, false)
+    network := nn.InitNN([]int{inputLength, 30, distinct})
+    network.Train(inputs, -10, 10, 0.5, 128, 5.0, testData, true)
 }
